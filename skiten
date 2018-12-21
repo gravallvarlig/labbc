@@ -1,0 +1,184 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+
+struct student
+{
+    char name[50];
+    int pnumber;
+
+    //double data;
+    struct student *next;
+};
+
+struct student *first = NULL, *last = NULL, *k;
+
+void create()
+{
+
+    first = (struct student *) malloc(sizeof(struct student));
+    printf("enter name of student\n");
+    scanf("%s", first->name);
+    printf("enter pnumber\n");
+    int temp_pnn;
+    scanf("%d", &temp_pnn);
+    getchar();
+    first->pnumber = temp_pnn;
+    first->next = NULL;
+    last = first;
+}
+
+void search()
+{
+    char r[50];
+    int flag=0;
+    printf("enter the pnumber of student you wish to search for\n");
+    scanf("%s",&r);
+    struct student *t;
+    t=first;
+    while(t!=NULL)
+    {
+        if (strcmp(r, t->pnumber) == 0)
+        {
+            printf("student named %s was found\n", t->name);
+            flag = 1;
+            break;
+        }
+        t = t->next;
+    }
+    if (flag == 0)
+        printf("pnumber was not found\n");
+}
+
+void test(int find)
+{
+    int ctr=1;
+
+
+}
+
+int main ()
+{
+    int choise;
+    while(choise !=0)
+    {
+        printf("MENU\n");
+        printf("Enter 1 for creating database\n");
+        printf("Enter 2 for displaying database\n");
+        printf("Enter 3 for inserting an record after another\n");
+        printf("Enter 4 for deleting a record\n");
+        printf("Enter 5 for searching a record\n");
+        printf("Enter 6 for something\n");
+        printf("Enter 7 for exit\n");
+        printf("Enter the choice:\n");
+        scanf("%d", &choise);
+        switch (choise)
+        {
+            case 1:
+               create();
+               choise=1;
+               break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                search();
+                break;
+            case 5:
+                break;
+            case 6:
+                break;
+            case 0:
+                exit(0);
+                break;
+            default:
+                printf("wrong choise\n");
+
+        }
+
+    }
+
+    return 0;
+
+}
+
+
+
+
+
+
+//void printAll(struct student *hd)
+//{
+//    while (hd != NULL) {
+//        printf(" %g ", hd->data);
+//        hd = hd->next;
+//    }
+//    printf("\n");
+//}
+
+//int main()
+//{
+//    struct student *head = NULL, *temp = NULL;
+//    char ch;
+//    long sizeOfFile = 0;
+//    int i = 0;
+//
+//   while (1) {
+//        printf("Enter s to stop or anything else to continue\n");
+//        while ((ch = getchar()) == '\n')
+//            ;
+//        if (ch == 's' || ch == 'S')
+//            break;
+//
+//        if (head == NULL) {
+//            head = (struct student *) malloc(sizeof(struct student));
+//            if (head == NULL) {
+//                printf("Couldn't allocate memory!\n");
+//                exit(1);
+//            }
+//            printf("Enter a number:\n");
+//            double dt;
+//            scanf("%lf", &dt);
+//            head->data = dt;
+//            head->next = NULL;
+//        }
+//        else {
+//            temp = head;
+//            while (temp->next != NULL){
+//                temp = temp->next;
+//            }
+//            temp->next = (struct student *) malloc(sizeof(struct student));
+//            if (temp->next == NULL) {
+//                printf("Couldn't allocate memory!\n");
+//                exit(1);
+//            }
+//            temp = temp->next;
+//            printf("Enter a number:\n");
+//            double dt;
+//            scanf("%lf", &dt);
+//            temp->data = dt;
+//            temp->next = NULL;
+
+//   printf("The list:\n");
+//   printAll(head);
+//
+//   while (1) {
+//       printf("Enter e to exit or anything else to continue\n");
+//       while ((ch = getchar()) == '\n')
+//           ;
+//       if (ch == 'e' || ch == 'E')
+//           break;
+//       printf("Enter a number to look up in the list:\n");
+//       double num;
+//       scanf("%lf", &num);
+//       struct student *fstudent = find(head, num);
+//       if (fstudent != NULL) {
+//           printf("The student exists in the list\n");
+//       }
+//       else {
+//           printf("No student with such data was found in the list\n");
+//       }
+//   }
+//
+//    return 0;
