@@ -1,0 +1,614 @@
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
+#include <stdbool.h>
+#include <ctype.h>
+
+struct Data
+{
+    char name[50];
+    int pnumber;
+    int age;
+    char gender[1];
+    char program[50];
+    char email[50];
+
+};
+
+struct Node
+{
+    struct Data dt;
+
+    //double data;
+    struct Node *next;
+
+
+}; //* head;
+
+struct Node *head = NULL, *tail = NULL, *k, *students = NULL, *temp = NULL;
+//struct Data *headd = NULL, *taild = NULL, *kd, *studentsd = NULL, *tempd = NULL;
+//head=head, Node=node, pnumber=data
+void create()
+{
+    if (head == NULL) {
+        head = (struct Node *) malloc(sizeof(struct Node));
+        printf("enter name of Node\n");
+        //int temp_name;
+        //scanf("%s", &temp_name);
+        //getchar();
+        scanf("%s", head->dt.name);
+        printf("enter pnumber\n");
+        int temp_pnn;
+        scanf("%d", &temp_pnn);
+        head->dt.pnumber = temp_pnn;
+        getchar();
+        printf("enter age\n");
+        scanf("%d", &temp_pnn);
+        head->dt.age = temp_pnn;
+        //head->dt->name=temp_name;
+
+        head->next = NULL;
+        //tail = head;
+    }
+
+        /////////////// while head != NULL
+    else
+    {
+        temp = head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = (struct Node *) malloc(sizeof(struct Node));
+        printf("enter name of Node\n");
+        scanf("%s", temp->next->dt.name);
+        printf("enter pnumber\n");
+        int temp_pnn;
+        scanf("%d", &temp_pnn);
+        getchar();
+        temp->next->dt.pnumber = temp_pnn;
+        temp->next->next = NULL;
+    }
+}
+
+
+void search()
+{
+    char pnumberseek[50];
+    int flag=0;
+
+    printf("enter the pnumber of Node you wish to search for\n");
+
+    scanf("%s",&pnumberseek);
+    getchar();
+    //fgets(pnumberseek, 50, stdin);
+
+    struct Node *t;
+    t=head;
+    while(t!=NULL)
+    {   // my changes starts from here ...
+        char temp_str[50];
+
+        sprintf(temp_str, "%d", t->dt.pnumber); // converting the personal number from int to str.
+        puts(temp_str);
+
+        //printf("the personal number (converted) for t is %s \n",  temp_str );
+        //printf("the personal number (typed in) is %s \n", pnumberseek );
+
+        if (strcmp(pnumberseek, temp_str) == 0) // Previously you were comparing a int with a str.
+            //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
+        {
+            printf("Node named %s was found\n", t->dt.name);
+            flag = 1;
+            break;
+        }
+        else{printf("the output of strcmp is %d \n", strcmp(pnumberseek, temp_str) );
+
+        }
+
+        t = t->next;
+    }
+    if (flag == 0)
+        printf("pnumber was not found\n");
+}
+
+void searchname()
+{
+    char nameseek[50];
+    int flag=0;
+
+    printf("enter the name of the node you wish to search for\n");
+
+    scanf("%s", &nameseek);
+    getchar();
+
+    struct Node *t;
+    t=head;
+    while(t!=NULL)
+    {   // my changes starts from here ...
+        char temp_str[50];
+
+        sprintf(temp_str, "%s", t->dt.name); // converting the personal number from int to str.
+        puts(temp_str);
+
+        //printf("the personal number (converted) for t is %s \n",  temp_str );
+        //printf("the personal number (typed in) is %s \n", pnumberseek );
+
+        if (strcmp(nameseek, temp_str) == 0) // Previously you were comparing a int with a str.
+            //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
+        {
+            printf("Node with pnumber %d was found\n", t->dt.pnumber);
+            flag = 1;
+            break;
+        }
+        else{printf("the output of strcmp is %d \n", strcmp(nameseek, temp_str) );
+
+        }
+
+        t = t->next;
+    }
+    if (flag == 0)
+        printf("name was not found\n");
+}
+
+void statistic()
+{
+    int pnumbertot=0, pnumbertemp;
+    int count = 0;
+    struct Node *t, *temp;
+    t = head;
+    //temp = head;
+
+    while (t != NULL)
+    {
+        count = count + 1;
+        pnumbertemp = t->dt.pnumber;
+        pnumbertot = pnumbertemp + pnumbertot;
+        t = t->next;
+    }
+    printf("number of students %d \n", count);
+    //printf("pnumbertot %d \n", pnumbertot);
+
+
+}
+
+struct Node *writetofile(struct Data *head, FILE **filestream)
+{
+    temp = head;
+    while (temp != NULL)
+    {
+        fwrite(&(temp->dt), sizeof(struct Data), 1, *filestream);
+
+        temp = temp->next;
+    }
+}
+
+
+void modify() {
+    char pnumberseek[50];
+    int flag = 0;
+
+    printf("enter the pnumber of Node you wish to search for\n");
+
+    scanf("%s", &pnumberseek);
+    getchar();
+    //fgets(pnumberseek, 50, stdin);
+
+    struct Node *t;
+    t = head;
+    while (t != NULL)
+    {   // my changes starts from here ...
+        char temp_str[50];
+
+        sprintf(temp_str, "%d", t->dt.pnumber); // converting the personal number from int to str.
+        puts(temp_str);
+
+        //printf("the personal number (converted) for t is %s \n", temp_str);
+        //printf("the personal number (typed in) is %s \n", pnumberseek);
+
+        if (strcmp(pnumberseek, temp_str) == 0) // Previously you were comparing a int with a str.
+            //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
+        {
+            printf("Node named %s was found\n", t->dt.name);
+            printf("enter new name\n");
+            scanf("%s", &t->dt.name);
+            getchar();
+            printf("enter new pnumber\n");
+            scanf("%d", &t->dt.pnumber);
+            getchar();
+            flag = 1;
+            break;
+        } else {
+            printf("the output of strcmp is %d \n", strcmp(pnumberseek, temp_str));
+        }
+
+        t = t->next;
+    }
+    if (flag == 0)
+    {
+        printf("pnumber was not found\n");
+    }
+}
+
+
+void printstudent() // Print all students' info
+{
+    struct Node *t;
+    t = head;
+    while (t != NULL)
+    {
+        puts(t->dt.name);
+        printf("");
+        printf("");
+        printf("pnumber %d\n", t->dt.pnumber);
+        printf("age %d\n", t->dt.age);
+        t = t->next;
+        printf("\n");
+    }
+    printf("\n");
+
+}
+
+void deletefirstnode() // old delete function
+{
+    struct Node *toDelete;
+
+    if(head == NULL)
+    {
+        printf("List is already empty.");
+    }
+    else
+    {
+        toDelete = head;
+        head = head->next;
+
+        printf("\nData deleted = %d\n", toDelete->dt);
+
+        /* Clears the memory occupied by first node*/
+        free(toDelete);
+
+        printf("SUCCESSFULLY DELETED FIRST NODE FROM LIST\n");
+    }
+}
+
+void delete() // working delete function
+{
+    if (head == NULL)
+    {
+        printf("List is already empty\n");
+    }
+    else
+    {
+        int pnumberseek;
+        int flag = 0;
+        struct Node *t, *toDelete, *prevNode;
+
+        t = head;
+        toDelete = head;
+        prevNode = head;
+
+        printf("enter pnumber\n");
+
+        scanf("%d", &pnumberseek);
+
+        if (pnumberseek == head->dt.pnumber)
+        {
+            toDelete = head;
+            head = head->next;
+
+            printf("\nData deleted = %d\n", toDelete->dt);
+
+            /* Clears the memory occupied by first node*/
+            free(toDelete);
+
+            printf("SUCCESSFULLY DELETED FIRST NODE FROM LIST\n");
+        }
+        else
+        {
+            while (t != NULL)
+            {   // my changes starts from here ...
+                char temp_str[50];
+                char temptemp[50];
+                prevNode = toDelete;
+                toDelete = toDelete->next;
+                sprintf(temp_str, "%d", toDelete->dt.pnumber); // converting the personal number from int to str.
+                puts(temp_str);
+
+
+                //printf("the personal number (converted) for t is %s \n", temp_str);
+                //printf("the personal number (typed in) is %s \n", pnumberseek);
+                if (toDelete->dt.pnumber == pnumberseek)
+                    //if (strcmp(pnumberseek, temp_str) == 0) // Previously you were comparing a int with a str.
+                    //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
+                {
+                    printf("Node named %s was found\n", toDelete->dt.name);
+                    prevNode->next = toDelete->next;
+
+                    /* Delete nth node */
+                    free(toDelete);
+
+                    printf("Succesfully deleted selected node\n");
+                }
+//            else
+//            {
+//                printf("the output of strcmp is %d \n", strcmp(pnumberseek, temp_str));
+//            }
+                t = t->next;
+
+            }
+        }
+    }
+}
+
+//        if (toDelete != NULL)
+//        {
+//            if (toDelete == head)
+//                head = head->next;
+//
+//            prevNode->next = toDelete->next;
+//            toDelete->next = NULL;
+//
+//            /* Delete nth node */
+//            free(toDelete);
+//
+//            printf("SUCCESSFULLY DELETED NODE FROM MIDDLE OF LIST\n");
+//        }
+//        else
+//        {
+//        printf("Invalid position unable to delete.");
+//        }
+
+//        int i;
+//
+//        else
+//        {
+//            toDelete = head;
+//            prevNode = head;
+//
+//            for(i=1; i<=position; i++)
+//            {
+//                prevNode = toDelete;
+//                toDelete = toDelete->next;
+//
+//                if(toDelete == NULL)
+//                    break;
+//            }
+//
+//            if(toDelete != NULL)
+//            {
+//                if(toDelete == head)
+//                    head = head->next;
+//
+//                prevNode->next = toDelete->next;
+//                toDelete->next = NULL;
+//
+//                /* Delete nth node */
+//                free(toDelete);
+//
+//                printf("SUCCESSFULLY DELETED NODE FROM MIDDLE OF LIST\n");
+//            }
+//            else
+//            {
+//                printf("Invalid position unable to delete.");
+//            }
+//        }
+//    }
+//    }
+
+void test()
+{
+    struct Data *flip;
+    int flap, fluup;
+
+    flip = head;
+    flap = head->dt.pnumber;
+    printf("%d", flap);
+    fluup = flap + flap;
+    printf("%d", fluup);
+    //printf("%s", head->dt.pnumber);
+}
+
+//void gubbar();
+//{
+//    head = (struct Data *) malloc(sizeof(struct Data));
+//    head->dt.pnumber = 11;
+//    head->dt.name = tim;
+//    head->dt.age = 22;
+//    head->dt.gender = M;
+//    head->dt.email = mail;
+//    head->dt.program = Engineer;
+//
+//    temp = head;
+//    temp -> next = NULL
+//
+//    head->next->dt.pnumber = 11;
+//    head->next->dt.name = tim;
+//    head->next->dt.age = 22;
+//    head->next->dt.gender = M;
+//    head->next->dt.email = mail;
+//    head->next->dt.program = Engineer;
+//
+//
+//}
+
+
+int main ()
+{
+    //printf("the head looks like %p \n", head);
+    int testif, choice=1;
+    char databasefilename[50];
+    double sizeoffile = 0;
+    while(choice !=0)
+    {
+        printf("MENU\n");
+        printf("1: Add nodes\n");
+        printf("2: Modify database\n");
+        printf("3: Delete post in database\n");
+        printf("4: Search for Node in database\n");
+        printf("5: Save database to file\n");
+        printf("6: Load database from file\n");
+        printf("7: Exit\n");
+
+        //printf("the head looks like %p \n", head);
+
+        printf("Enter choice\n");
+        scanf("%d", &choice);
+        switch (choice)
+        {
+            case 1:
+                create();
+                choice=1;
+                break;
+            case 2:
+                modify();
+                break;
+            case 3:
+                delete();
+                break;
+            case 4:
+                printf("Choose option \n1. search for pnumber\n2. search for name\n3. search for program\n4. statistics\n5. Display nodes\n");
+                scanf("%d", &testif);
+                if (testif==1)
+                {
+                    search();
+                    break;
+                }
+                if (testif==2)
+                {
+                    searchname();
+                    break;
+                }
+                if (testif==3)
+                {
+                    break;
+                }
+                if (testif==4)
+                {
+                    statistic();
+                    break;
+                }
+                if (testif==5)
+                {
+                    printstudent();
+                    break;
+                }
+                else
+                    break;
+            case 5:
+                printf("\n");
+                printf("enter filename for database \n");
+                getchar();
+                fgets(databasefilename, 50, stdin);
+                databasefilename[strlen(databasefilename) - 1] = '\0';
+                strcat(databasefilename, ".dat");
+
+                FILE *studentdb = fopen(databasefilename, "wb+");
+
+                writetofile(head, &studentdb); // Writes the info of every student to file
+
+                if (fwrite != 0) // If the file could be written successfully
+                {
+                    printf("content written succesfully\n");
+                }
+
+                // Calculate size of the file and move cursor back when done
+                fseek(studentdb, 0, SEEK_END);
+                sizeoffile = ftell(studentdb);
+                rewind(studentdb);
+
+                fclose(studentdb); // End stream
+                break;
+            case 6:
+                struct Node *temp, *students;
+                int alldataread = 0, timeslooped = 0;
+                double inputnumber, amountofdataread = 0;
+                printf("");
+                printf("Please enter a filename (no extension) for the file you want to load: \n");
+                fgets(databasefilename, 50, stdin);
+                databasefilename[strlen(databasefilename) - 1] = '\0';
+                strcat(databasefilename, ".dat");
+                FILE *studentfile;
+
+                studentfile = fopen(databasefilename, "rb+");
+                if (studentfile == NULL) // If the file couldn't be read
+                {
+                    fprintf(stderr, "\nError opening file\n");
+                    exit(1);
+                }
+
+                fseek(studentfile, 0, SEEK_END);
+                sizeoffile = ftell(studentfile);
+                rewind(studentfile);
+
+                students = NULL;
+                temp = NULL;
+
+                // Mimic way of adding like in the first part of the assignment, except now without user input
+                while (alldataread == 0) // While there's still data left to read...
+                {
+                    if (students == NULL) // If writing to the first node...
+                    {
+                        students = (struct Data *) malloc(sizeof(struct Data));
+
+                        fread(&head->dt.pnumber, sizeof(head->dt.pnumber), 1, studentfile);
+                        fread(head->dt.name, sizeof(head->dt.name), 1, studentfile);
+                        fread(head->dt.gender, sizeof(head->dt.gender), 1, studentfile);
+                        fread(head->dt.program, sizeof(head->dt.program), 1, studentfile);
+                        fread(&head->dt.age, sizeof(head->dt.age), 1, studentfile);
+                        fread(head->dt.email, sizeof(head->dt.email), 1, studentfile);
+                        students->next = NULL;
+
+                        puts(head->dt.name);
+                    }
+                    else // If not writing to first node...
+                    {
+                        temp = head;
+                        while (temp->next != NULL)
+                        {
+                            temp = temp->next;
+                        }
+
+                        temp->next = (struct Node *) malloc(sizeof(struct Data));
+                        temp = temp->next;
+
+                        fread(&temp->dt.pnumber, sizeof(temp->dt.pnumber), 1, studentfile);
+                        fread(temp->dt.name, sizeof(temp->dt.name), 1, studentfile);
+                        fread(temp->dt.gender, sizeof(temp->dt.gender), 1, studentfile);
+                        fread(temp->dt.program, sizeof(temp->dt.program), 1, studentfile);
+                        fread(&temp->dt.age, sizeof(temp->dt.age), 1, studentfile);
+                        fread(temp->dt.email, sizeof(temp->dt.email), 1, studentfile);
+                        temp->next = NULL;
+
+                        puts(temp->dt.name);
+                    }
+
+                    // Calculate the amount of times looped, the amount of data read and print it together with the entirety of the filesize
+                    ++timeslooped;
+                    amountofdataread = (sizeof(head->dt.pnumber) + sizeof(head->dt.name) + sizeof(head->dt.gender) + sizeof(head->dt.program) + sizeof(head->dt.age) + sizeof(head->dt.email)) * timeslooped;
+                    printf("Amount of data read: %lf / %lf\n\n", amountofdataread, sizeoffile);
+
+                    if (amountofdataread == sizeoffile) // If all data was successfully read...
+                    {
+                        alldataread = 1;
+                    }
+                }
+
+                fclose(studentfile); // Close stream
+                break;
+                break;
+            case 7:
+                printf("Stopping program\n");
+                exit(0);
+                break;
+            default:
+                printf("invalid choice\n");
+
+        }
+
+    }
+
+    return 0;
+
+}
