@@ -433,6 +433,87 @@ void test()
 //
 //}
 
+void read()
+{
+    struct Node *temp, *head;
+    char databasefilename[50];
+    double sizeoffile = 0;
+    int alldataread = 0, timeslooped = 0;
+    double inputnumber, amountofdataread = 0;
+    printf("");
+    printf("Please enter a filename (no extension) for the file you want to load: \n");
+    scanf("%s", &databasefilename);
+    //fgets(databasefilename, 50, stdin);
+    //databasefilename[strlen(databasefilename) - 1] = '\0';
+    strcat(databasefilename, ".dat");
+    FILE *studentfile;
+
+    studentfile = fopen(databasefilename, "rb+");
+    if (studentfile == NULL) // If the file couldn't be read
+    {
+        fprintf(stderr, "\nError opening file\n");
+        exit(1);
+    }
+
+    fseek(studentfile, 0, SEEK_END);
+    sizeoffile = ftell(studentfile);
+    rewind(studentfile);
+
+    students = NULL;
+    temp = NULL;
+
+    // Mimic way of adding like in the first part of the assignment, except now without user input
+    while (alldataread == 0) // While there's still data left to read...
+    {
+        if (students == NULL) // If writing to the first node...
+        {
+            students = (struct Data *) malloc(sizeof(struct Data));
+
+            fread(head->dt.pnumber, sizeof(head->dt.pnumber), 1, studentfile);
+            fread(head->dt.name, sizeof(head->dt.name), 1, studentfile);
+            fread(head->dt.gender, sizeof(head->dt.gender), 1, studentfile);
+            fread(head->dt.program, sizeof(head->dt.program), 1, studentfile);
+            fread(&head->dt.age, sizeof(head->dt.age), 1, studentfile);
+            fread(head->dt.email, sizeof(head->dt.email), 1, studentfile);
+            students->next = NULL;
+
+            puts(head->dt.name);
+        }
+        else // If not writing to first node...
+        {
+            temp = head;
+            while (temp->next != NULL)
+            {
+                temp = temp->next;
+            }
+
+            temp->next = (struct Data *) malloc(sizeof(struct Data));
+            temp = temp->next;
+
+            fread(&temp->dt.pnumber, sizeof(temp->dt.pnumber), 1, studentfile);
+            fread(temp->dt.name, sizeof(temp->dt.name), 1, studentfile);
+            fread(temp->dt.gender, sizeof(temp->dt.gender), 1, studentfile);
+            fread(temp->dt.program, sizeof(temp->dt.program), 1, studentfile);
+            fread(&temp->dt.age, sizeof(temp->dt.age), 1, studentfile);
+            fread(temp->dt.email, sizeof(temp->dt.email), 1, studentfile);
+            temp->next = NULL;
+
+            puts(temp->dt.name);
+        }
+
+        // Calculate the amount of times looped, the amount of data read and print it together with the entirety of the filesize
+        ++timeslooped;
+        amountofdataread = (sizeof(head->dt.pnumber) + sizeof(head->dt.name) + sizeof(head->dt.gender) + sizeof(head->dt.program) + sizeof(head->dt.age) + sizeof(head->dt.email)) * timeslooped;
+        printf("Amount of data read: %lf / %lf\n\n", amountofdataread, sizeoffile);
+
+        if (amountofdataread == sizeoffile) // If all data was successfully read...
+        {
+            alldataread = 1;
+        }
+    }
+
+    fclose(studentfile); // Close stream
+}
 
 int main ()
 {
@@ -521,82 +602,7 @@ int main ()
                 fclose(studentdb); // End stream
                 break;
             case 6:
-                struct Node *temp, *students;
-                int alldataread = 0, timeslooped = 0;
-                double inputnumber, amountofdataread = 0;
-                printf("");
-                printf("Please enter a filename (no extension) for the file you want to load: \n");
-                fgets(databasefilename, 50, stdin);
-                databasefilename[strlen(databasefilename) - 1] = '\0';
-                strcat(databasefilename, ".dat");
-                FILE *studentfile;
-
-                studentfile = fopen(databasefilename, "rb+");
-                if (studentfile == NULL) // If the file couldn't be read
-                {
-                    fprintf(stderr, "\nError opening file\n");
-                    exit(1);
-                }
-
-                fseek(studentfile, 0, SEEK_END);
-                sizeoffile = ftell(studentfile);
-                rewind(studentfile);
-
-                students = NULL;
-                temp = NULL;
-
-                // Mimic way of adding like in the first part of the assignment, except now without user input
-                while (alldataread == 0) // While there's still data left to read...
-                {
-                    if (students == NULL) // If writing to the first node...
-                    {
-                        students = (struct Data *) malloc(sizeof(struct Data));
-
-                        fread(&head->dt.pnumber, sizeof(head->dt.pnumber), 1, studentfile);
-                        fread(head->dt.name, sizeof(head->dt.name), 1, studentfile);
-                        fread(head->dt.gender, sizeof(head->dt.gender), 1, studentfile);
-                        fread(head->dt.program, sizeof(head->dt.program), 1, studentfile);
-                        fread(&head->dt.age, sizeof(head->dt.age), 1, studentfile);
-                        fread(head->dt.email, sizeof(head->dt.email), 1, studentfile);
-                        students->next = NULL;
-
-                        puts(head->dt.name);
-                    }
-                    else // If not writing to first node...
-                    {
-                        temp = head;
-                        while (temp->next != NULL)
-                        {
-                            temp = temp->next;
-                        }
-
-                        temp->next = (struct Node *) malloc(sizeof(struct Data));
-                        temp = temp->next;
-
-                        fread(&temp->dt.pnumber, sizeof(temp->dt.pnumber), 1, studentfile);
-                        fread(temp->dt.name, sizeof(temp->dt.name), 1, studentfile);
-                        fread(temp->dt.gender, sizeof(temp->dt.gender), 1, studentfile);
-                        fread(temp->dt.program, sizeof(temp->dt.program), 1, studentfile);
-                        fread(&temp->dt.age, sizeof(temp->dt.age), 1, studentfile);
-                        fread(temp->dt.email, sizeof(temp->dt.email), 1, studentfile);
-                        temp->next = NULL;
-
-                        puts(temp->dt.name);
-                    }
-
-                    // Calculate the amount of times looped, the amount of data read and print it together with the entirety of the filesize
-                    ++timeslooped;
-                    amountofdataread = (sizeof(head->dt.pnumber) + sizeof(head->dt.name) + sizeof(head->dt.gender) + sizeof(head->dt.program) + sizeof(head->dt.age) + sizeof(head->dt.email)) * timeslooped;
-                    printf("Amount of data read: %lf / %lf\n\n", amountofdataread, sizeoffile);
-
-                    if (amountofdataread == sizeoffile) // If all data was successfully read...
-                    {
-                        alldataread = 1;
-                    }
-                }
-
-                fclose(studentfile); // Close stream
-                break;
+                read();
                 break;
             case 7:
                 printf("Stopping program\n");
