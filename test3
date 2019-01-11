@@ -193,7 +193,14 @@ void statistic()
 
         t = t->next;
     }
-
+    printf("     |Total number of students | %d \n", count);
+    printf("\n");
+    printf("     |average age of students  | %lf \n", agetot / count);
+    printf("\n");
+    printf("     |number of male students  | %d\n", countmale);
+    printf("\n");
+    printf("     |number of female students| %d\n", countfemale);
+    printf("\n");
     loop = 1;
 
     int i, studentcount = 0, malecount = 0, femalecount = 0;
@@ -230,14 +237,7 @@ void statistic()
 
     }
 
-    printf("     |Total number of students | %d \n", count);
-    printf("\n");
-    printf("     |average age of students  | %lf \n", agetot / count);
-    printf("\n");
-    printf("     |number of male students  | %d\n", countmale);
-    printf("\n");
-    printf("     |number of female students| %d\n", countfemale);
-    printf("\n");
+
 }
 
 struct Node *writetofile(struct Data *head, FILE **filestream)
