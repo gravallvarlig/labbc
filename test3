@@ -173,23 +173,71 @@ void searchname()
 
 void statistic()
 {
-    int pnumbertot=0, pnumbertemp;
-    int count = 0;
+    double agetot = 0, agetemp;
+    int count = 0, countmale = 0, countfemale = 0, loop = 0;
+    char temp_program[50];
     struct Node *t, *temp;
     t = head;
     //temp = head;
 
-    while (t != NULL)
-    {
+    while (t != NULL) {
         count = count + 1;
-        pnumbertemp = t->dt.pnumber;
-        pnumbertot = pnumbertemp + pnumbertot;
+        agetemp = t->dt.age;
+        agetot = agetemp + agetot;
+
+        if (t->dt.gender == 0) {
+            ++countfemale;
+        } else {
+            ++countmale;
+        }
+
         t = t->next;
     }
-    printf("number of students %d \n", count);
-    //printf("pnumbertot %d \n", pnumbertot);
+
+    loop = 1;
+
+    int i, studentcount = 0, malecount = 0, femalecount = 0;
 
 
+    t = head;
+    while (loop == 1)
+    {
+        sprintf(temp_program, "%s", t->dt.program);
+        while (t != NULL)
+        {
+            if (strcmp(temp_program, t->dt.program) == 0)
+            {
+                ++studentcount;
+                if (t->dt.gender == 0)
+                {
+                    ++femalecount;
+                }
+                else
+                {
+                    ++malecount;
+                }
+                t = t->next;
+            }
+            else
+            {
+                loop = 3;
+            }
+        }
+        printf("| the statistics for %s |\n", temp_program);
+
+        printf(" number of students %d |\n number of male students %d |\n number of female students %d |\n",
+               studentcount, malecount, femalecount);
+
+    }
+
+    printf("     |Total number of students | %d \n", count);
+    printf("\n");
+    printf("     |average age of students  | %lf \n", agetot / count);
+    printf("\n");
+    printf("     |number of male students  | %d\n", countmale);
+    printf("\n");
+    printf("     |number of female students| %d\n", countfemale);
+    printf("\n");
 }
 
 struct Node *writetofile(struct Data *head, FILE **filestream)
@@ -197,7 +245,7 @@ struct Node *writetofile(struct Data *head, FILE **filestream)
     temp = head;
     while (temp != NULL)
     {
-        fwrite(&(temp->dt), sizeof(struct Data), 1, *filestream);
+        fwrite(&(temp->dt), 1, sizeof(temp->dt), *filestream);
 
         temp = temp->next;
     }
@@ -277,6 +325,7 @@ void printstudent() // Print all students' info
     printf("\n");
 
 }
+
 
 void deletefirstnode() // old delete function
 {
@@ -605,11 +654,11 @@ void read2()
 
         puts(temp->dt.name);
         ++timeslooped;
-        amountofdatareadtemp = (sizeof(temp->dt.pnumber) + sizeof(temp->dt.name) + sizeof(temp->dt.gender) + sizeof(temp->dt.program) + sizeof(temp->dt.age) + sizeof(temp->dt.email)) * timeslooped;
+        amountofdatareadtemp = (sizeof(temp->dt.pnumber) + sizeof(temp->dt.name) + sizeof(temp->dt.gender) + sizeof(temp->dt.program) + sizeof(temp->dt.age) + sizeof(temp->dt.email));
         amountofdataread = amountofdataread + amountofdatareadtemp;
-        amountofdataread = amountofdataread + 4;
-        printf("amount of datanread: %lf / %lf\n", amountofdataread, sizeoffile);
-        if (amountofdataread > sizeoffile)
+        //amountofdataread = amountofdataread + 4;
+        printf("amount of dataread: %lf / %lf\n", amountofdataread, sizeoffile);
+        if (amountofdataread == sizeoffile)
         {
             alldataread = 1;
         }
