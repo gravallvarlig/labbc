@@ -380,27 +380,28 @@ void stats()
 void modify()
 {
     char pnumberseek[50];
+    double pseek1, pseek2;
     int flag = 0;
 
     printf("enter the pnumber of Node you wish to search for\n");
 
-    scanf("%s", &pnumberseek);
-    getchar();
+    scanf("%lf", &pseek1);
+    //getchar();
     //fgets(pnumberseek, 50, stdin);
 
     struct Node *t;
     t = head;
     while (t != NULL)
     {   // my changes starts from here ...
-        char temp_str[50];
+        //char temp_str[50];
 
-        sprintf(temp_str, "%lf", t->dt.pnumber); // converting the personal number from int to str.
-        puts(temp_str);
-
+//        sprintf(temp_str, "%lf", t->dt.pnumber); // converting the personal number from int to str.
+//        puts(temp_str);
+        pseek2=t->dt.pnumber;
         //printf("the personal number (converted) for t is %s \n", temp_str);
         //printf("the personal number (typed in) is %s \n", pnumberseek);
 
-        if (strcmp(pnumberseek, temp_str) == 0) // Previously you were comparing a int with a str.
+        if (pseek1==pseek2) // Previously you were comparing a int with a str.
             //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
         {
             printf("Node named %s was found\n", t->dt.name);
@@ -412,8 +413,10 @@ void modify()
             getchar();
             flag = 1;
             break;
-        } else {
-            printf("the output of strcmp is %d \n", strcmp(pnumberseek, temp_str));
+        }
+        else
+        {
+            //printf("the output of strcmp is %d \n", strcmp(pnumberseek, temp_str));
         }
 
         t = t->next;
@@ -512,7 +515,7 @@ void delete() // working delete function
         printf("List is already empty\n");
     }
     else
-        {
+    {
         double pnumberseek;
         int flag = 0;
         struct Node *t, *toDelete, *prevNode;
@@ -537,7 +540,7 @@ void delete() // working delete function
             printf("Deletion was succesfull\n");
         }
         else
-            {
+        {
             while (t != NULL)
             {   // my changes starts from here ...
                 char temp_str[50];
