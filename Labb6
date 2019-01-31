@@ -1,3 +1,6 @@
+#ifdef _MSC_VER
+#define _CRT_SECURE_NO_WARNINGS
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
@@ -7,7 +10,7 @@
 struct Data
 {
     char name[50];
-    int pnumber;
+    double pnumber;
     int age;
     int gender;
     char program[50];
@@ -34,13 +37,14 @@ void create() {
         printf("enter name of Node\n");
         scanf("%s", head->dt.name);
         printf("enter pnumber\n");
-        int temp_pnn;
-        scanf("%d", &temp_pnn);
+        double temp_pnn;
+        scanf("%lf", &temp_pnn);
         head->dt.pnumber = temp_pnn;
         getchar();
+        int temp_age;
         printf("enter age\n");
-        scanf("%d", &temp_pnn);
-        head->dt.age = temp_pnn;
+        scanf("%d", &temp_age);
+        head->dt.age = temp_age;
         getchar();
         printf(" enter gender | 2 for male | 0 for female | \n");
         scanf("%d", &head->dt.gender);
@@ -69,8 +73,9 @@ void create() {
         printf("enter name of Node\n");
         scanf("%s", temp->next->dt.name);
         printf("enter pnumber\n");
-        int temp_pnn, temp_gender;
-        scanf("%d", &temp_pnn);
+        int temp_age, temp_gender;
+        double temp_pnn;
+        scanf("%lf", &temp_pnn);
         getchar();
         printf("enter age\n");
         scanf("%d", &temp->next->dt.age);
@@ -94,11 +99,12 @@ void create() {
 void search()
 {
     char pnumberseek[50];
+    double pseek1, pseek2;
     int flag=0;
 
     printf("enter the pnumber of Node you wish to search for\n");
 
-    scanf("%s",&pnumberseek);
+    scanf("%lf",&pseek1);
     getchar();
     //fgets(pnumberseek, 50, stdin);
 
@@ -106,22 +112,25 @@ void search()
     t=head;
     while(t!=NULL)
     {   // my changes starts from here ...
-        char temp_str[50];
+        //char temp_str[50];
 
-        sprintf(temp_str, "%d", t->dt.pnumber); // converting the personal number from int to str.
-        puts(temp_str);
+        //sprintf(temp_str, "%lf", t->dt.pnumber); // converting the personal number from int to str.
+        //4puts(temp_str);
 
+        pseek2=t->dt.pnumber;
         //printf("the personal number (converted) for t is %s \n",  temp_str );
         //printf("the personal number (typed in) is %s \n", pnumberseek );
 
-        if (strcmp(pnumberseek, temp_str) == 0) // Previously you were comparing a int with a str.
+        if (pseek1 == pseek2) // Previously you were comparing a int with a str.
             //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
         {
             printf("Node named %s was found\n", t->dt.name);
             flag = 1;
             break;
         }
-        else{printf("the output of strcmp is %d \n", strcmp(pnumberseek, temp_str) );
+        else
+        {
+            //printf("the output of strcmp is %d \n", strcmp(pnumberseek, temp_str) );
 
         }
 
@@ -156,7 +165,7 @@ void searchname()
         if (strcmp(nameseek, temp_str) == 0) // Previously you were comparing a int with a str.
             //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
         {
-            printf("Node with pnumber %d was found\n", t->dt.pnumber);
+            printf("Node with pnumber %lf was found\n", t->dt.pnumber);
             flag = 1;
             break;
         }
@@ -244,12 +253,12 @@ struct Node *writetofile(struct Data *head, FILE **filestream)
     while (temp != NULL)
     {
         //fwrite(&(temp), 1, sizeof(struct Data), *filestream);
-        fread(&(temp->dt.pnumber), sizeof(temp->dt.pnumber), 1, *filestream);
-        fread(temp->dt.name, sizeof(temp->dt.name), 1, *filestream);
-        fread(&(temp->dt.gender), sizeof(temp->dt.gender), 1, *filestream);
-        fread(temp->dt.program, sizeof(temp->dt.program), 1, *filestream);
-        fread(&(temp->dt.age), sizeof(temp->dt.age), 1, *filestream);
-        fread(temp->dt.email, sizeof(temp->dt.email), 1, *filestream);
+        fwrite(&(temp->dt.pnumber), sizeof(temp->dt.pnumber), 1, *filestream);
+        fwrite(&temp->dt.name, sizeof(temp->dt.name), 1, *filestream);
+        fwrite(&(temp->dt.gender), sizeof(temp->dt.gender), 1, *filestream);
+        fwrite(&temp->dt.program, sizeof(temp->dt.program), 1, *filestream);
+        fwrite(&(temp->dt.age), sizeof(temp->dt.age), 1, *filestream);
+        fwrite(&temp->dt.email, sizeof(temp->dt.email), 1, *filestream);
 
         temp = temp->next;
     }
@@ -385,7 +394,7 @@ void modify()
     {   // my changes starts from here ...
         char temp_str[50];
 
-        sprintf(temp_str, "%d", t->dt.pnumber); // converting the personal number from int to str.
+        sprintf(temp_str, "%lf", t->dt.pnumber); // converting the personal number from int to str.
         puts(temp_str);
 
         //printf("the personal number (converted) for t is %s \n", temp_str);
@@ -399,7 +408,7 @@ void modify()
             scanf("%s", &t->dt.name);
             getchar();
             printf("enter new pnumber\n");
-            scanf("%d", &t->dt.pnumber);
+            scanf("%lf", &t->dt.pnumber);
             getchar();
             flag = 1;
             break;
@@ -436,7 +445,7 @@ void studyp_stat()
 
         if (strcmp(studyseek, t->dt.program) == 0)
         {
-            printf("| %s |  | %d |\n", t->dt.name, t->dt.pnumber);
+            printf("| %s |  | %lf |\n", t->dt.name, t->dt.pnumber);
 
         }
         t = t->next;
@@ -454,7 +463,7 @@ void printstudent()
     {
         printf("\n");
         printf("Name %s\n", t->dt.name);
-        printf("pnumber %d\n", t->dt.pnumber);
+        printf("pnumber %lf\n", t->dt.pnumber);
         printf("age %d\n", t->dt.age);
         if ( t->dt.gender == 0)
         {
@@ -504,7 +513,7 @@ void delete() // working delete function
     }
     else
         {
-        int pnumberseek;
+        double pnumberseek;
         int flag = 0;
         struct Node *t, *toDelete, *prevNode;
 
@@ -514,7 +523,7 @@ void delete() // working delete function
 
         printf("enter pnumber\n");
 
-        scanf("%d", &pnumberseek);
+        scanf("%lf", &pnumberseek);
 
         if (pnumberseek == head->dt.pnumber) {
             toDelete = head;
@@ -535,7 +544,7 @@ void delete() // working delete function
                 char temptemp[50];
                 prevNode = toDelete;
                 toDelete = toDelete->next;
-                sprintf(temp_str, "%d", toDelete->dt.pnumber); // converting the personal number from int to str.
+                sprintf(temp_str, "%lf", toDelete->dt.pnumber); // converting the personal number from int to str.
                 puts(temp_str);
 
 
@@ -562,28 +571,31 @@ void delete() // working delete function
 }
 
 
-void test()
-{
-    struct Data *flip;
-    int flap, fluup;
-
-    flip = head;
-    flap = head->dt.pnumber;
-    printf("%d", flap);
-    fluup = flap + flap;
-    printf("%d", fluup);
-    //printf("%s", head->dt.pnumber);
-}
+//void test()
+//{
+//    struct Data *flip;
+//    int flap, fluup;
+//
+//    flip = head;
+//    flap = head->dt.pnumber;
+//    printf("%d", flap);
+//    fluup = flap + flap;
+//    printf("%d", fluup);
+//    //printf("%s", head->dt.pnumber);
+//}
 
 
 
 void read2()
 {
-    struct Node *temp, *students, *head;
+    //struct Node *students;
     char databasefilename[50];
     double sizeoffile;
     double alldataread = 0, timeslooped = 0;
     double inputnumber, amountofdataread = 0, amountofdatareadtemp = 0;
+    int gtest, atest;
+    double ptest;
+    char ntest[50], etest[50], pgtest[50];
     printf("");
     printf("enter filename\n");
     scanf("%s", &databasefilename);
@@ -601,61 +613,84 @@ void read2()
     rewind(studentfile);
 
     //temp = head;
-    students = NULL;
-    temp = NULL;
+    //students = NULL;
+    //temp = NULL;
+    //temp = head;
 
-    //students = head;
-    head = (struct Node *) malloc(sizeof(struct Node));
-    //fread(&(head->dt), sizeof(head->dt), 1, studentfile);
-
-    fread(&head->dt.pnumber, sizeof(head->dt.pnumber), 1, studentfile);
-    fread(head->dt.name, sizeof(head->dt.name), 1, studentfile);
-    fread(&head->dt.gender, sizeof(head->dt.gender), 1, studentfile);
-    fread(head->dt.program, sizeof(head->dt.program), 1, studentfile);
-    fread(&head->dt.age, sizeof(head->dt.age), 1, studentfile);
-    fread(head->dt.email, sizeof(head->dt.email), 1, studentfile);
-
-    puts(head->dt.name);
-    ++timeslooped;
-    amountofdatareadtemp = (sizeof(head->dt.pnumber) + sizeof(head->dt.name) + sizeof(head->dt.gender) + sizeof(head->dt.program) + sizeof(head->dt.age) + sizeof(head->dt.email));
-    amountofdataread = amountofdataread + amountofdatareadtemp;
-
-    if (amountofdataread == sizeoffile) // If all data was successfully read...
+    while (alldataread==0)
     {
-        alldataread = 1;
-    }
-
-    temp = head;
-
-    while (alldataread == 0)
-    {
-        while (temp->next != NULL)
+        if (head == NULL)
         {
-            temp = temp->next;
-            temp = (struct Node *) malloc(sizeof(struct Node));
-            fread(&(temp->dt), sizeof(temp->dt), 1, studentfile);
+            //students = head;
+            head = (struct Data *) malloc(sizeof(struct Data));
+            //fread(&(head->dt), sizeof(head->dt), 1, studentfile);
 
-//        fread(&temp->dt.pnumber, sizeof(temp->dt.pnumber), 1, studentfile);
-//        fread(temp->dt.name, sizeof(temp->dt.name), 1, studentfile);
-//        fread(&temp->dt.gender, sizeof(temp->dt.gender), 1, studentfile);
-//        fread(temp->dt.program, sizeof(temp->dt.program), 1, studentfile);
-//        fread(&temp->dt.age, sizeof(temp->dt.age), 1, studentfile);
-//        fread(temp->dt.email, sizeof(temp->dt.email), 1, studentfile);
+            fread(&head->dt.pnumber, sizeof(head->dt.pnumber), 1, studentfile);
+            fread(head->dt.name, sizeof(head->dt.name), 1, studentfile);
+            fread(&head->dt.gender, sizeof(head->dt.gender), 1, studentfile);
+            fread(head->dt.program, sizeof(head->dt.program), 1, studentfile);
+            fread(&head->dt.age, sizeof(head->dt.age), 1, studentfile);
+            fread(head->dt.email, sizeof(head->dt.email), 1, studentfile);
 
-            puts(temp->dt.name);
-            ++timeslooped;
-            amountofdatareadtemp = (sizeof(temp->dt.pnumber) + sizeof(temp->dt.name) + sizeof(temp->dt.gender) + sizeof(temp->dt.program) + sizeof(temp->dt.age) + sizeof(temp->dt.email));
+            printf("Name of student being read: ");
+            puts(head->dt.name);
+
+            head->next=NULL;
+        }
+        else
+        {
+            temp = head;
+            while (temp->next != NULL)
+            {
+                temp = temp->next;
+            }
+
+            //temp = temp->next;
+            temp->next = (struct Node *) malloc(sizeof(struct Node));
+            //fread(&(temp->dt), sizeof(temp->dt), 1, studentfile);
+
+//            fread(&temp->dt.pnumber, sizeof(temp->dt.pnumber), 1, studentfile);
+//            fread(temp->dt.name, sizeof(temp->dt.name), 1, studentfile);
+//            fread(&temp->dt.gender, sizeof(temp->dt.gender), 1, studentfile);
+//            fread(temp->dt.program, sizeof(temp->dt.program), 1, studentfile);
+//            fread(&temp->dt.age, sizeof(temp->dt.age), 1, studentfile);
+//            fread(temp->dt.email, sizeof(temp->dt.email), 1, studentfile);
+
+            fread(&ptest, sizeof(temp->dt.pnumber), 1, studentfile);
+            fread(ntest, sizeof(temp->dt.name), 1, studentfile);
+            fread(&gtest, sizeof(temp->dt.gender), 1, studentfile);
+            fread(pgtest, sizeof(temp->dt.program), 1, studentfile);
+            fread(&atest, sizeof(temp->dt.age), 1, studentfile);
+            fread(etest, sizeof(temp->dt.email), 1, studentfile);
+
+            temp->next->dt.pnumber=ptest;
+            strcpy(temp->next->dt.name,ntest);
+            temp->next->dt.gender=gtest;
+            strcpy(temp->next->dt.program,pgtest);
+            temp->next->dt.age=atest;
+            strcpy(temp->next->dt.email,etest);
+
+            printf("Name of student being read: ");
+            puts(temp->next->dt.name);
+
+            temp->next->next = NULL;
+
+            //temp=temp->next;
 
         }
 
+        ++timeslooped;
+        amountofdatareadtemp = (sizeof(head->dt.pnumber) + sizeof(head->dt.name) + sizeof(head->dt.gender) + sizeof(head->dt.program) + sizeof(head->dt.age) + sizeof(head->dt.email));
         amountofdataread = amountofdataread + amountofdatareadtemp;
-        //amountofdataread = amountofdataread + 4;
         printf("amount of dataread: %lf / %lf\n", amountofdataread, sizeoffile);
-        if (amountofdataread == sizeoffile)
+
+
+        if (amountofdataread == sizeoffile) // If all data was successfully read...
         {
             alldataread = 1;
         }
     }
+
     fclose(studentfile);
 }
 
@@ -733,6 +768,8 @@ int main ()
                 strcat(databasefilename, ".dat");
 
                 FILE *studentdb = fopen(databasefilename, "wb+");
+
+                rewind(studentdb);
 
                 writetofile(head, &studentdb); // Writes the info of every student to file
 
