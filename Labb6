@@ -1,10 +1,6 @@
-#ifdef _MSC_VER
-#define _CRT_SECURE_NO_WARNINGS
-#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include <stdbool.h>
 #include <ctype.h>
 
 struct Data
@@ -26,15 +22,16 @@ struct Node
     struct Node *next;
 
 
-}; //* head;
+};
 
-struct Node *head = NULL, *tail = NULL, *k, *students = NULL, *temp = NULL;
-//struct Data *headd = NULL, *taild = NULL, *kd, *studentsd = NULL, *tempd = NULL;
-//head=head, Node=node, pnumber=data
-void create() {
-    if (head == NULL) {
+struct Node *head = NULL, *tail = NULL, *temp = NULL;
+
+void create()
+{
+    if (head == NULL)
+    {
         head = (struct Node *) malloc(sizeof(struct Node));
-        printf("enter name of Node\n");
+        printf("enter name of student\n");
         scanf("%s", head->dt.name);
         printf("enter pnumber\n");
         double temp_pnn;
@@ -55,13 +52,10 @@ void create() {
         printf("enter email\n");
         scanf("%s", &head->dt.email);
         getchar();
-        //head->dt->name=temp_name;
 
         head->next = NULL;
-        //tail = head;
     }
 
-        /////////////// while head != NULL
     else
     {
         temp = head;
@@ -70,7 +64,7 @@ void create() {
             temp = temp->next;
         }
         temp->next = (struct Node *) malloc(sizeof(struct Node));
-        printf("enter name of Node\n");
+        printf("enter name of student\n");
         scanf("%s", temp->next->dt.name);
         printf("enter pnumber\n");
         int temp_age, temp_gender;
@@ -98,41 +92,27 @@ void create() {
 
 void search()
 {
-    char pnumberseek[50];
     double pseek1, pseek2;
     int flag=0;
 
-    printf("enter the pnumber of Node you wish to search for\n");
+    printf("enter the pnumber of student you wish to search for\n");
 
     scanf("%lf",&pseek1);
     getchar();
-    //fgets(pnumberseek, 50, stdin);
 
     struct Node *t;
     t=head;
     while(t!=NULL)
-    {   // my changes starts from here ...
-        //char temp_str[50];
-
-        //sprintf(temp_str, "%lf", t->dt.pnumber); // converting the personal number from int to str.
-        //4puts(temp_str);
-
+    {
         pseek2=t->dt.pnumber;
-        //printf("the personal number (converted) for t is %s \n",  temp_str );
-        //printf("the personal number (typed in) is %s \n", pnumberseek );
 
-        if (pseek1 == pseek2) // Previously you were comparing a int with a str.
-            //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
+        if (pseek1 == pseek2)
         {
-            printf("Node named %s was found\n", t->dt.name);
+            printf("Student named %s was found\n", t->dt.name);
             flag = 1;
             break;
         }
-        else
-        {
-            //printf("the output of strcmp is %d \n", strcmp(pnumberseek, temp_str) );
 
-        }
 
         t = t->next;
     }
@@ -145,7 +125,7 @@ void searchname()
     char nameseek[50];
     int flag=0;
 
-    printf("enter the name of the node you wish to search for\n");
+    printf("enter the name of the student you wish to search for\n");
 
     scanf("%s", &nameseek);
     getchar();
@@ -153,24 +133,21 @@ void searchname()
     struct Node *t;
     t=head;
     while(t!=NULL)
-    {   // my changes starts from here ...
+    {
         char temp_str[50];
 
-        sprintf(temp_str, "%s", t->dt.name); // converting the personal number from int to str.
+        sprintf(temp_str, "%s", t->dt.name);
         puts(temp_str);
 
-        //printf("the personal number (converted) for t is %s \n",  temp_str );
-        //printf("the personal number (typed in) is %s \n", pnumberseek );
-
-        if (strcmp(nameseek, temp_str) == 0) // Previously you were comparing a int with a str.
-            //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
+        if (strcmp(nameseek, temp_str) == 0)
         {
-            printf("Node with pnumber %lf was found\n", t->dt.pnumber);
+            printf("Student with pnumber %lf was found\n", t->dt.pnumber);
             flag = 1;
             break;
         }
-        else{printf("the output of strcmp is %d \n", strcmp(nameseek, temp_str) );
-
+        else
+        {
+            printf("the output of strcmp is %d \n", strcmp(nameseek, temp_str) );
         }
 
         t = t->next;
@@ -183,10 +160,8 @@ void statistic()
 {
     double agetot = 0, agetemp;
     int count = 0, countmale = 0, countfemale = 0, loop = 0;
-    char temp_program[50];
     struct Node *t, *temp;
     t = head;
-    //temp = head;
 
     while (t != NULL)
     {
@@ -212,39 +187,6 @@ void statistic()
     printf("\n");
     loop = 1;
 
-    int i, studentcount = 0, malecount = 0, femalecount = 0;
-
-
-//    t = head;
-//    while (loop == 1)
-//    {
-//        sprintf(temp_program, "%s", t->dt.program);
-//        while (t != NULL)
-//        {
-//            if (strcmp(temp_program, t->dt.program) == 0)
-//            {
-//                ++studentcount;
-//                if (t->dt.gender == 0)
-//                {
-//                    ++femalecount;
-//                }
-//                else
-//                {
-//                    ++malecount;
-//                }
-//                t = t->next;
-//            }
-//            else
-//            {
-//                loop = 3;
-//            }
-//        }
-//        printf("| the statistics for %s |\n", temp_program);
-//
-//        printf(" number of students %d |\n number of male students %d |\n number of female students %d |\n",
-//               studentcount, malecount, femalecount);
-//
-//    }
 }
 
 struct Node *writetofile(struct Data *head, FILE **filestream)
@@ -252,7 +194,6 @@ struct Node *writetofile(struct Data *head, FILE **filestream)
     temp = head;
     while (temp != NULL)
     {
-        //fwrite(&(temp), 1, sizeof(struct Data), *filestream);
         fwrite(&(temp->dt.pnumber), sizeof(temp->dt.pnumber), 1, *filestream);
         fwrite(&temp->dt.name, sizeof(temp->dt.name), 1, *filestream);
         fwrite(&(temp->dt.gender), sizeof(temp->dt.gender), 1, *filestream);
@@ -266,7 +207,8 @@ struct Node *writetofile(struct Data *head, FILE **filestream)
 
 void stats()
 {
-    int mcounter=0, fcounter=0, temp, agetemp, i=0, counter=0, flag = 0, found=0, male, female, pcounter=0;
+    int mcounter=0, fcounter=0, temp, agecounter=0, i=0, counter=0, flag = 0, found=0, pcounter=0, totstud=0;
+    double agetot;
     char donep[50][50];
     char progtemp[50];
 
@@ -283,8 +225,6 @@ void stats()
     {
         strcpy(donep[i], "");
     }
-
-    //test = sizeof(struct Node / )
 
     t = head;
     while (t != NULL)
@@ -317,14 +257,6 @@ void stats()
 
     }
 
-//    printf("programs\n");
-//    for (i = 0; i < counter; i++)
-//    {
-//        if (strcmp(donep[i], "") != 0)
-//        {
-//            puts(donep[i]);
-//        }
-//    }
     t = head;
 
     for (i = 0; i < pcounter; i++)
@@ -348,27 +280,31 @@ void stats()
                     fcounter++;
                 }
 
-                //agesum += head->age;
+                agetot = agetot + t->dt.age;
+                agecounter++;
+
             }
             t = t->next;
 
 
 
         }
-        //ageresult = agesum / counter;
 
+        agetot = agetot/agecounter;
+        totstud = mcounter + fcounter;
+
+
+        printf("Number of students in program %d\n", totstud);
         printf("Number of female students in program %d\n", fcounter);
         printf("Number of male students in program %d\n", mcounter);
-        // Print all results and reset variables for next iteration
-        //printf("Number of students in program %d\n", totalstudents);
+        printf("Average age of students in program %lf\n", agetot);
 
-        //printf("Average age of students in program %d\n", ageresult);
-
-        //totalstudents = 0;
+        totstud = 0;
         fcounter = 0;
         mcounter = 0;
-        //agesum = 0;
-        //ageresult = 0;
+        agetot = 0;
+        agecounter= 0;
+
         t = head;
         printf("\n");
     }
@@ -379,32 +315,23 @@ void stats()
 
 void modify()
 {
-    char pnumberseek[50];
     double pseek1, pseek2;
     int flag = 0;
 
-    printf("enter the pnumber of Node you wish to search for\n");
+    printf("enter the pnumber of student you wish to search for\n");
 
     scanf("%lf", &pseek1);
-    //getchar();
-    //fgets(pnumberseek, 50, stdin);
+
 
     struct Node *t;
     t = head;
     while (t != NULL)
-    {   // my changes starts from here ...
-        //char temp_str[50];
-
-//        sprintf(temp_str, "%lf", t->dt.pnumber); // converting the personal number from int to str.
-//        puts(temp_str);
+    {
         pseek2=t->dt.pnumber;
-        //printf("the personal number (converted) for t is %s \n", temp_str);
-        //printf("the personal number (typed in) is %s \n", pnumberseek);
 
-        if (pseek1==pseek2) // Previously you were comparing a int with a str.
-            //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
+        if (pseek1==pseek2)
         {
-            printf("Node named %s was found\n", t->dt.name);
+            printf("Student named %s was found\n", t->dt.name);
             printf("enter new name\n");
             scanf("%s", &t->dt.name);
             getchar();
@@ -413,10 +340,6 @@ void modify()
             getchar();
             flag = 1;
             break;
-        }
-        else
-        {
-            //printf("the output of strcmp is %d \n", strcmp(pnumberseek, temp_str));
         }
 
         t = t->next;
@@ -442,9 +365,6 @@ void studyp_stat()
     printf(" students in %s\n", studyseek);
     while(t!=NULL)
     {
-        char temp_str[50];
-
-
 
         if (strcmp(studyseek, t->dt.program) == 0)
         {
@@ -466,7 +386,7 @@ void printstudent()
     {
         printf("\n");
         printf("Name %s\n", t->dt.name);
-        printf("pnumber %lf\n", t->dt.pnumber);
+        printf("Personal number %lf\n", t->dt.pnumber);
         printf("age %d\n", t->dt.age);
         if ( t->dt.gender == 0)
         {
@@ -483,29 +403,6 @@ void printstudent()
     }
     printf("\n");
 
-}
-
-
-void deletefirstnode() // old delete function
-{
-    struct Node *toDelete;
-
-    if(head == NULL)
-    {
-        printf("List is already empty.");
-    }
-    else
-    {
-        toDelete = head;
-        head = head->next;
-
-        printf("\nData deleted = %d\n", toDelete->dt);
-
-
-        free(toDelete);
-
-        printf("SUCCESSFULLY DELETED FIRST NODE FROM LIST\n");
-    }
 }
 
 void delete() // working delete function
@@ -534,7 +431,6 @@ void delete() // working delete function
 
             printf("\nData deleted = %d\n", toDelete->dt);
 
-            /* Clears the memory occupied by first node*/
             free(toDelete);
 
             printf("Deletion was succesfull\n");
@@ -542,28 +438,24 @@ void delete() // working delete function
         else
         {
             while (t != NULL)
-            {   // my changes starts from here ...
+            {
                 char temp_str[50];
-                char temptemp[50];
                 prevNode = toDelete;
                 toDelete = toDelete->next;
-                sprintf(temp_str, "%lf", toDelete->dt.pnumber); // converting the personal number from int to str.
+                sprintf(temp_str, "%lf", toDelete->dt.pnumber);
                 puts(temp_str);
 
 
-                //printf("the personal number (converted) for t is %s \n", temp_str);
-                //printf("the personal number (typed in) is %s \n", pnumberseek);
+
                 if (toDelete->dt.pnumber == pnumberseek)
-                    //if (strcmp(pnumberseek, temp_str) == 0) // Previously you were comparing a int with a str.
-                    //if (strcmp(pnumberseek, t->pnumber) == 0) //this is the line that crashes both in Clion IDE and Xcode Ide.
+
                 {
-                    printf("Node named %s was found\n", toDelete->dt.name);
+                    printf("Student named %s was found\n", toDelete->dt.name);
                     prevNode->next = toDelete->next;
 
-                    /* Delete nth node */
                     free(toDelete);
 
-                    printf("Succesfully deleted selected node\n");
+                    printf("Succesfully deleted selected student\n");
 
                     t = t->next;
 
@@ -573,32 +465,15 @@ void delete() // working delete function
     }
 }
 
-
-//void test()
-//{
-//    struct Data *flip;
-//    int flap, fluup;
-//
-//    flip = head;
-//    flap = head->dt.pnumber;
-//    printf("%d", flap);
-//    fluup = flap + flap;
-//    printf("%d", fluup);
-//    //printf("%s", head->dt.pnumber);
-//}
-
-
-
 void read2()
 {
-    //struct Node *students;
     char databasefilename[50];
     double sizeoffile;
     double alldataread = 0, timeslooped = 0;
     double inputnumber, amountofdataread = 0, amountofdatareadtemp = 0;
     int gtest, atest;
     double ptest;
-    char ntest[50], etest[50], pgtest[50];
+    char ntest[50], etest[50], pgtest[50], confirm;
     printf("");
     printf("enter filename\n");
     scanf("%s", &databasefilename);
@@ -615,18 +490,11 @@ void read2()
     sizeoffile = ftell(studentfile);
     rewind(studentfile);
 
-    //temp = head;
-    //students = NULL;
-    //temp = NULL;
-    //temp = head;
-
     while (alldataread==0)
     {
         if (head == NULL)
         {
-            //students = head;
-            head = (struct Data *) malloc(sizeof(struct Data));
-            //fread(&(head->dt), sizeof(head->dt), 1, studentfile);
+            head = (struct Node *) malloc(sizeof(struct Node));
 
             fread(&head->dt.pnumber, sizeof(head->dt.pnumber), 1, studentfile);
             fread(head->dt.name, sizeof(head->dt.name), 1, studentfile);
@@ -648,16 +516,8 @@ void read2()
                 temp = temp->next;
             }
 
-            //temp = temp->next;
             temp->next = (struct Node *) malloc(sizeof(struct Node));
-            //fread(&(temp->dt), sizeof(temp->dt), 1, studentfile);
 
-//            fread(&temp->dt.pnumber, sizeof(temp->dt.pnumber), 1, studentfile);
-//            fread(temp->dt.name, sizeof(temp->dt.name), 1, studentfile);
-//            fread(&temp->dt.gender, sizeof(temp->dt.gender), 1, studentfile);
-//            fread(temp->dt.program, sizeof(temp->dt.program), 1, studentfile);
-//            fread(&temp->dt.age, sizeof(temp->dt.age), 1, studentfile);
-//            fread(temp->dt.email, sizeof(temp->dt.email), 1, studentfile);
 
             fread(&ptest, sizeof(temp->dt.pnumber), 1, studentfile);
             fread(ntest, sizeof(temp->dt.name), 1, studentfile);
@@ -678,8 +538,6 @@ void read2()
 
             temp->next->next = NULL;
 
-            //temp=temp->next;
-
         }
 
         ++timeslooped;
@@ -688,34 +546,33 @@ void read2()
         printf("amount of dataread: %lf / %lf\n", amountofdataread, sizeoffile);
 
 
-        if (amountofdataread == sizeoffile) // If all data was successfully read...
+        if (amountofdataread == sizeoffile)
         {
             alldataread = 1;
         }
     }
 
     fclose(studentfile);
+
 }
 
 
 int main ()
 {
-    //printf("the head looks like %p \n", head);
-    int testif, choice=1, test;
+    int testif, choice=1, test, charre;
     char databasefilename[50];
     double sizeoffile = 0;
     while(choice !=0)
     {
         printf("MENU\n");
-        printf("1: Add nodes\n");
+        printf("1: Add students\n");
         printf("2: Modify database\n");
         printf("3: Delete post in database\n");
-        printf("4: Search for Node in database\n");
+        printf("4: Search for student in database\n");
         printf("5: Save database to file\n");
         printf("6: Load database from file\n");
         printf("7: Exit\n");
 
-        //printf("the head looks like %p \n", head);
 
         printf("Enter choice\n");
         scanf("%d", &choice);
@@ -732,7 +589,7 @@ int main ()
                 delete();
                 break;
             case 4:
-                printf("Choose option \n1. search for pnumber\n2. search for name\n3. search for program\n4. statistics\n5. Display nodes\n");
+                printf("Choose option \n1. search for pnumber\n2. search for name\n3. search for program\n4. statistics\n5. Display students\n");
                 scanf("%d", &testif);
                 if (testif==1)
                 {
@@ -774,9 +631,9 @@ int main ()
 
                 rewind(studentdb);
 
-                writetofile(head, &studentdb); // Writes the info of every student to file
+                writetofile(head, &studentdb);
 
-                if (fwrite != 0) // If the file could be written successfully
+                if (fwrite != 0)
                 {
                     printf("content written succesfully\n");
                 }
@@ -785,12 +642,26 @@ int main ()
                 sizeoffile = ftell(studentdb);
                 rewind(studentdb);
 
-                fclose(studentdb); // End stream
+                fclose(studentdb);
                 break;
             case 6:
-//                test = sizeof(struct Data);
-//                printf("%d", test);
-                read2();
+                printf("Existing database will be overwritten, enter 1 to continue or 0 to exit\n");
+                scanf("%d", &charre);
+                getchar();
+                if( charre == 1)
+                {
+                    read2();
+                }
+                if ( charre == 0)
+                {
+                    printf("Exiting\n");
+                    break;
+                }
+                else
+                {
+                    printf("Invalid option\n");
+                }
+
                 break;
             case 7:
                 printf("Stopping program\n");
@@ -804,5 +675,4 @@ int main ()
     }
 
     return 0;
-
 }
