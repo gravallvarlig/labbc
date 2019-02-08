@@ -1,0 +1,112 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include <stdbool.h>
+
+
+
+struct Node {
+    int data;
+    struct Node *next;
+    struct Node *prev;
+};
+
+struct Node* head;
+
+struct Node* MakeNewNode(int x) {
+    struct Node *newNode = (struct Node *) malloc(sizeof(struct Node));
+    newNode->data = x;
+    newNode->prev = NULL;
+    newNode->next = NULL;
+    return newNode;
+}
+    int Insert(int x) {
+    struct Node *temp = head;
+    struct Node *newNode = MakeNewNode(x);
+    if (head == NULL) {
+        head = newNode;
+    }
+    else
+    {
+        while (temp->next != NULL) {
+            temp = temp->next; // moving to the last node in the list.
+        }
+
+        temp->next = newNode; // adding the new node int to the list on the last position.
+        newNode->prev = temp;
+    }
+
+//    if (temp->prev == NULL)
+//    {
+//        return 0; // failed to add node to the list
+//    }
+//    else
+//    {
+//        return 1; // successfully added node to the list
+//    }
+}
+
+ bool isEmpty(int y)
+{
+    if (head==NULL)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+search(int y, int x)
+{
+    struct Node *temp;
+    temp = head;
+    int searchData, flag = 0;
+    while(temp!=NULL)
+    {
+        searchData = temp->data;
+
+        if (x == searchData)
+        {
+            flag = 1;
+            return temp->data;
+        }
+        temp = temp->next;
+    }
+    if (flag == 0)
+    {
+        return NULL;
+    }
+}
+
+
+
+void Print() {
+    struct Node* temp = head;
+    printf("Forward: ");
+    while(temp != NULL) {
+        printf("%d ",temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+
+int main()
+{
+    Insert(1);
+    Print();
+    
+//
+//    Insert(2);
+//    Print();
+//
+//    Insert(3);
+//    Print();
+
+//isEmpty(1);
+
+
+
+
+}
